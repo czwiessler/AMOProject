@@ -207,9 +207,80 @@ def plot_density_functions_for_month(df, month):
     plt.show()
 
 
+def plot_density_functions_for_month_a(df, month):
+    """
+    Plots the density functions (Kernel Density Estimation) for each hour of a given month
+    with a uniform x-axis scaling (0 to 1). The y-axis remains unberührt und passt sich
+    der berechneten Dichte an.
+
+    Parameters:
+        df (pd.DataFrame): Vorgefilterter Datensatz.
+        month (int): Der Monat, für den die Dichtefunktionen geplottet werden sollen.
+    """
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from scipy.stats import gaussian_kde
+
+    # Bestimme den maximalen Global Radiation Wert für die Normierung
+    global_max = df['global_radiation'].max()
+
+    # Erstelle ein 4x6 Grid für 24 Subplots
+    fig, axes = plt.subplots(4, 6, figsize=(18, 12))
+    axes = axes.flatten()
+
+    for hour in range(24):
+        ax = axes[hour]
+        # Filtere die Daten für den angegebenen Monat und die Stunde
+        hour_data = df[(df['month'] == month) & (df['hour'] == hour)]['global_radiation'].dropna().values
+
+        # Falls keine Daten vorhanden sind
+        if len(hour_data) == 0:
+            ax.set_title(f"Hour {hour}\n(no data)")
+            ax.set_xlabel('Normalized Global Radiation')
+            ax.set_ylabel('Density')
+            ax.set_xlim(0, 1)
+            continue
+
+        # Falls die Daten keine Variation aufweisen (konstanter Wert)
+        if len(np.unique(hour_data)) < 2:
+            constant_value = hour_data[0]
+            # Normiere den konstanten Wert für die x-Achse
+            ax.axvline(constant_value / global_max, color='red', linestyle='--', label="Constant value")
+            ax.set_title(f"Hour {hour}\n(constant)")
+            ax.set_xlabel('Normalized Global Radiation')
+            ax.set_ylabel('Density')
+            ax.legend()
+            ax.grid(True)
+            ax.set_xlim(0, 1)
+            continue
+
+        # Berechne die Kernel Density Estimation (KDE)
+        try:
+            kde = gaussian_kde(hour_data)
+            # Erstelle einen normierten x-Bereich von 0 bis 1
+            x_grid_norm = np.linspace(0, 1, 100)
+            # Wandle in den Originalbereich um
+            x_grid_original = x_grid_norm * global_max
+            density = kde(x_grid_original)
+            ax.plot(x_grid_norm, density, color='blue')
+        except np.linalg.LinAlgError:
+            ax.text(0.5, 0.5, "KDE Error", transform=ax.transAxes, ha='center')
+
+        ax.set_title(f"Hour {hour}")
+        ax.set_xlabel('Normalized Global Radiation')
+        ax.set_ylabel('Density')
+        ax.grid(True)
+        # Setze die x-Achse immer auf den Bereich [0, 1]
+        ax.set_xlim(0, 1)
+
+    plt.tight_layout()
+    plt.suptitle(f'Density Functions for Month {month}', fontsize=16, y=1.02)
+    plt.show()
+
+
 def main():
     # Parameters
-    dataset_path = 'Timeseries_2020_2023.csv'
+    dataset_path = 'Timeseries_2005_2023.csv'
     clusters_per_month = 5
     n_simulations = 1000
     example_month = 7
@@ -241,6 +312,9 @@ def main():
 
     # 6. Visualize density functions for each hour of the example month
     plot_density_functions_for_month(df, example_month)
+
+    # 7. Visualize density functions for each hour of the example month with normalized x-axis
+    plot_density_functions_for_month_a(df, example_month)
 
 
 if __name__ == "__main__":
