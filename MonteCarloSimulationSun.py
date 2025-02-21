@@ -277,6 +277,29 @@ def plot_density_functions_for_month_a(df, month):
     plt.suptitle(f'Density Functions for Month {month}', fontsize=16, y=1.02)
     plt.show()
 
+def plot_cdf_for_hour(cdf_lookup, month, hour):
+    """
+    Plots the empirical CDF for a given month and hour.
+
+    Parameters:
+        cdf_lookup (dict): Lookup dictionary with the CDF values.
+        month (int): The month for which to plot the CDF.
+        hour (int): The hour for which to plot the CDF.
+    """
+    if month not in cdf_lookup or hour not in cdf_lookup[month]:
+        print(f"No data available for month {month}, hour {hour}.")
+        return
+
+    sorted_data, cdf = cdf_lookup[month][hour]
+
+    plt.figure(figsize=(8, 5))
+    plt.plot(sorted_data, cdf, marker='o', linestyle='-', color='b')
+    plt.xlabel("Global Radiation")
+    plt.ylabel("Cumulative Probability")
+    plt.title(f"Empirical CDF for Month {month}, Hour {hour}")
+    plt.grid(True)
+    plt.show()
+
 
 def main():
     # Parameters
@@ -290,6 +313,7 @@ def main():
 
     # 2. Compute the empirical CDF for each month and hour
     cdf_lookup, months = compute_cdf_lookup(df)
+    plot_cdf_for_hour(cdf_lookup, month=7, hour=12)
 
     # 3. Monte Carlo simulation and scenario reduction
     rep_profiles = []  # List to store representative profiles
