@@ -280,7 +280,7 @@ def plot_density_functions_for_month_a(df, month):
 
 def main():
     # Parameters
-    dataset_path = 'Timeseries_2005_2023.csv'
+    dataset_path = 'Solar_Timeseries_2005_2023.csv'
     clusters_per_month = 5
     n_simulations = 1000
     example_month = 7
