@@ -13,7 +13,7 @@ This repository contains Jupyter notebooks and accompanying data which is first 
   - `01_MonteCarloSimulationSun.ipynb`: Jupyter notebook for CDF lookup and simulation of solar radiation.
   - `02_MonteCarloSimulationTemperature.ipynb`: Jupyter notebook for CDF lookup and simulation of ambient temperature.
   - `03_MonteCarloSimulationConsumption.ipynb`: Jupyter notebook for CDF lookup and simulation of energy consumption.
-- `04_RandomVariables.ipynb`: Jupyter notebook for generating samples that are correlated using Gaussian Copula and Monte Carlo Simulation, to ensure that the marginal distributions correspond to the specified CDFs (as quantiles). In addition, this also has code to cluster the simulation using k-means and saves them in the `data/` folder.
+- `04_MergeAndCopulas.ipynb`: Jupyter notebook for generating samples that are correlated using Gaussian Copula and Monte Carlo Simulation, to ensure that the marginal distributions correspond to the specified CDFs (as quantiles). In addition, this also has code to cluster the simulation using k-means and saves them in the `data/` folder.
 - `05_Optimization.ipynb`: Jupyter notebook with bi-level optimization Julia code.
 
 - #### 📂 `data/`
