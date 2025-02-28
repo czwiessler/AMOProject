@@ -4,10 +4,16 @@
 This repository contains Jupyter notebooks and accompanying data which is first used for Monte Carlo Simulations and then for our optimizsation.
 
 ## Contents
-- `01_MonteCarloSimulationConsumption.ipynb`: Jupyter notebook for simulating energy consumption using Monte Carlo simulation.
-- `02_MonteCarloSimulationSun.ipynb`: Jupyter notebook for simulating sun radiation using Monte Carlo simulation.
-- `03_MonteCarloSimulationTemperature.ipynb`: Jupyter notebook for simulating ambient temperature using Monte Carlo simulation.
-- `04_MergeAndCopulas.ipynb`: Jupyter notebook for generating samples that are correlated using Gaussian Copula, to ensure that the marginal distributions correspond to the specified CDFs (as quantiles). In addition, this also has code to cluster the simulation using k-means and saves them in the `data/` folder.
+- Simulations
+    > **Note:**  
+    Each notebook contains the complete procedure, from creating the CDF lookup to the final simulation of the respective variable.  
+    Since we have three correlated variables, the individual simulations (every Section marked with `Appendix`) serve only as an appendix and are not used later.  
+    Instead, we only utilize the CDF lookups from these notebooks and perform the actual simulation in the *Random Variables* notebook.
+
+  - `01_MonteCarloSimulationSun.ipynb`: Jupyter notebook for CDF lookup and simulation of solar radiation.
+  - `02_MonteCarloSimulationTemperature.ipynb`: Jupyter notebook for CDF lookup and simulation of ambient temperature.
+  - `03_MonteCarloSimulationConsumption.ipynb`: Jupyter notebook for CDF lookup and simulation of energy consumption.
+- `04_RandomVariables.ipynb`: Jupyter notebook for generating samples that are correlated using Gaussian Copula and Monte Carlo Simulation, to ensure that the marginal distributions correspond to the specified CDFs (as quantiles). In addition, this also has code to cluster the simulation using k-means and saves them in the `data/` folder.
 - `05_Optimization.ipynb`: Jupyter notebook with bi-level optimization Julia code.
 
 - #### 📂 `data/`
